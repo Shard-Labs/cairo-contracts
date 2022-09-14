@@ -176,7 +176,9 @@ namespace Account {
 
         let (tx_info) = get_tx_info();
         with_attr error_message("Account: invalid tx version") {
-            assert tx_info.version = 1;
+            let expected_tx_version = 1;
+            let expected_query_version = 2**128 + expected_tx_version;
+            assert (tx_info.version - expected_tx_version) * (tx_info.version - expected_query_version) = 0;
         }
 
         // assert not a reentrant call
